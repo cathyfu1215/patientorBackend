@@ -1,42 +1,44 @@
 import patientData from '../../data/patients';
-import { Patient,NonSensitivePatient,NewPatient } from '../types';
+import { Patient,NonSensitivePatient,NewPatient,Entry } from '../types';
 import { v1 as uuid } from 'uuid';
 
-const getPatientEntries = ():Patient[] => {
-  return patientData.map(({id,name,dateOfBirth,ssn,gender,occupation,entries})=>({
+const getPatientEntries = (): Patient[] => {
+  return patientData.map(({ id, name, dateOfBirth, ssn, gender, occupation, entries }) => ({
+    id,
     name,
-    ssn,
-    occupation,
     dateOfBirth,
+    ssn,
     gender,
+    occupation,
     entries,
-    id}));
-    
+  }));
 };
 
-const getNonSensitivePatientEntries = ():NonSensitivePatient[]=>{
-  return patientData.map(({id,name,dateOfBirth,gender,occupation})=>({
+const getNonSensitivePatientEntries = (): NonSensitivePatient[] => {
+  return patientData.map(({ id, name, dateOfBirth, gender, occupation }) => ({
     id,
     name,
     dateOfBirth,
     gender,
-    occupation
+    occupation,
   }));
 };
 
-   
-const addPatient = (entry:NewPatient):Patient => {
+const addPatient = (entry: NewPatient): Patient => {
   const id = uuid();
-  const newPatientEntry = {
+  const newPatientEntry: Patient = {
     id: id,
-    entries: [],
-    ...entry
+    ...entry,
+    entries: [] as Entry[], // Initialize entries as an empty array of type Entry[]
   };
+
+  patientData.push(newPatientEntry); // Add the new patient to the patientData array
+
   return newPatientEntry;
 };
 
 export default {
-    getPatientEntries,
-    addPatient,
-    getNonSensitivePatientEntries
+  getPatientEntries,
+  getNonSensitivePatientEntries,
+  addPatient,
 };
