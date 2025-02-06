@@ -3,7 +3,15 @@ import { Patient,NonSensitivePatient,NewPatient } from '../types';
 import { v1 as uuid } from 'uuid';
 
 const getPatientEntries = ():Patient[] => {
-  return patientData;
+  return patientData.map(({id,name,dateOfBirth,ssn,gender,occupation,entries})=>({
+    name,
+    ssn,
+    occupation,
+    dateOfBirth,
+    gender,
+    entries,
+    id}));
+    
 };
 
 const getNonSensitivePatientEntries = ():NonSensitivePatient[]=>{
@@ -21,6 +29,7 @@ const addPatient = (entry:NewPatient):Patient => {
   const id = uuid();
   const newPatientEntry = {
     id: id,
+    entries: [],
     ...entry
   };
   return newPatientEntry;
